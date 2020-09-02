@@ -9,7 +9,7 @@ const LOG = new Logger('DataImportController.js');
 const SchoolModel = require('../models/school');
 const School = SchoolModel(sequelize);
 
-// TODO: Please implement Question 1 requirement here
+
 const classcodecontroller = async (req, res, next) => {
   const reqClassCode = req.params.classCode;
   const reqClassName = req.body.className;

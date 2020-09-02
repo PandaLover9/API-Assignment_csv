@@ -11,14 +11,14 @@ const axios = require('axios').default;
 
 const School = SchoolModel(sequelize);
 
-// TODO: Please implement Question 1 requirement here
+
 const studentListHandler = async (req, res, next) => {
 
   const reqClassCode = req.params.classCode;
-  const reqoffset = (req.query.offset === undefined) ? 0 : req.query.offset;
+  const reqOffSet = (req.query.offset === undefined) ? 0 : req.query.offset;
   const reqLimit = (req.query.limit === undefined) ? 10 : req.query.limit;
 
-  console.log("Offset inserted from browser is: " + reqoffset);
+  console.log('Offset inserted from browser is: ' + reqOffSet);
 
   try {
 
@@ -27,7 +27,7 @@ const studentListHandler = async (req, res, next) => {
       where: {
         classCode: reqClassCode
       },
-      offset: reqoffset
+      offset: reqOffSet
     });
 
     var output = {

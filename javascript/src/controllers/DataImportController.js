@@ -11,7 +11,7 @@ const LOG = new Logger('DataImportController.js');
 const SchoolModel = require('../models/school');
 const School = SchoolModel(sequelize);
 
-// TODO: Please implement Question 1 requirement here
+
 const dataImportHandler = async (req, res, next) => {
 
   const { file } = req;
