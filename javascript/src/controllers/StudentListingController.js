@@ -1,56 +1,76 @@
-//code from DataImportController
 import Express from 'express';
 import { NO_CONTENT } from 'http-status-codes';
 import Logger from '../config/logger';
-import upload from '../config/multer';
 import sequelize from '../config/database';
 
-const LOG = new Logger('StudentListingController.js');
+
+const StudentListController = Express.Router();
+const LOG = new Logger('StudentListController.js');
 const SchoolModel = require('../models/school');
+const axios = require('axios').default;
+
 const School = SchoolModel(sequelize);
-const StudentListingController = Express.Router();
 
-//from github example
-const querystring = require('querystring');
-const seq = require('sequelize-easy-query');
+// TODO: Please implement Question 1 requirement here
+const studentListHandler = async (req, res, next) => {
 
-const { QueryTypes } = require('sequelize');
+  const reqClassCode = req.params.classCode;
+  const reqoffset = (req.query.offset === undefined) ? 0 : req.query.offset;
+  const reqLimit = (req.query.limit === undefined) ? 10 : req.query.limit;
 
-
-const studentlistingcontroller = async (req, res, next) => {
-
+  console.log("Offset inserted from browser is: " + reqoffset);
 
   try {
-    LOG.info("HAHA" + School.primaryKeyAttributes);
-    console.log("haha code runs here at least.")
 
-    //select records from classCode
-    let students = await School.findAll({
-      where: seq('raw query string', {
-        filterBy: ['classCode'],
-       }),
-     })
+    const internalStudent = await School.findAll({
+      attributes: ['studentEmail', 'studentName'],
+      where: {
+        classCode: reqClassCode
+      },
+      offset: reqoffset
+    });
 
-    students = await sequelize.query("SELECT * FROM `schools`", { type: QueryTypes.SELECT });
+    var output = {
+      count: 0,
+      students: []
+    }
 
-     //Order in alphabetical order
-     students = await School.findAll({
-      order: seq('raw query string', {
-         order: {
-           studentName: 'DESC'
-         }
-       })
-     })
-  }
+    const exLimit = reqLimit - internalStudent.length;
 
-  catch (err) {
+    var externalStudent = []
+    var exCount = 0;
+    if (exLimit > 0) {
+      const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${reqoffset}&limit=${exLimit}`;
+      console.log(externalUrl);
+      const resp = await axios.get(externalUrl);
+      externalStudent.push(... resp.data.students);
+      exCount = resp.data['count'];
+    }
+
+    output.count = internalStudent.length + exCount;
+    output.students.push(... internalStudent)
+    output.students.push(... externalStudent)
+
+    // output = await output.students.findAll({
+    //   //reqOffset
+    //   offset: reqOffset,
+    //   attributes: ['studentEmail', 'studentName'],
+    //   where: {
+    //     classCode: reqClassCode
+    //   },
+    //   order: {
+    //     'id': 'DESC'
+    //   }
+    // });
+
+  } catch (err) {
     LOG.error(err)
     return next(err);
   }
 
-  return res.sendStatus(NO_CONTENT);
+  return res.send(JSON.stringify(output, null, 2));
 }
 
-StudentListingController.get('/class/students', upload.single('data'), studentlistingcontroller());
+StudentListController.get('/class/:classCode/students', studentListHandler);
 
-export default StudentListingController;
+export default StudentListController;

@@ -20,8 +20,6 @@ const dataImportHandler = async (req, res, next) => {
     const data = await convertCsvToJson(file.path);
     const tobe_update = [];
 
-    LOG.info("HAHA" + School.primaryKeyAttributes)
-
     data.forEach(d => {
       if (d['toDelete'] == 1) {
 
