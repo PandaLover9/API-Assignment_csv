@@ -1,8 +1,14 @@
 teacherEmail,teacherName,studentEmail,studentName,classCode,className,subjectCode,subjectName,toDelete
-teacher1@gmail.com,Teacher 1,commonstudent1@gmail.com,Common Student 1,P1-1,,MATHS,Mathematics,0
-teacher1@gmail.com,Teacher 1,commonstudent2@gmail.com,Common Student 2,P1-1,,MATHS,Mathematics,0
-teacher1@gmail.com,Teacher 1,commonstudent3@gmail.com,Common Student 3,P1-1,,MATHS,Mathematics,1
-leeyongsheng2107@gmail.com,Lee Yong Sheng,chelsea_leolee@hotmail.com,Messi,P1-1,P1 Morality,PHY,Physics,1
-12@gmail.com, Messi, 34@gmail.com, Ronaldo,P1-1, Discipline, BIO, Biology,0
-45@gmail, Kim Yong, 78@gmail.com, Te Pan,P1-1, Love, CHEM, Chemistry, 0
-haha@hotmail.com, lee, hehe@gmail.com, tan,P1-1, Commitment, MATH, Mathematics, 0
+teacher1@gmail.com,Teacher 1,commonstudent1@gmail.com,Common Student 1,P1-1,Love,MATHS,Mathematics,0
+teacher1@gmail.com,Teacher 1,commonstudent2@gmail.com,Common Student 2,P1-1,Love,MATHS,Mathematics,0
+teacher1@gmail.com,Teacher 1,commonstudent3@gmail.com,Common Student 3,P2-1,Hate,MATHS,Mathematics,0
+leeyongsheng2107@gmail.com,Lee Yong Sheng,chelsea_leolee@hotmail.com,Lianna,P2-1,Hate,PHY,Physics,0
+leeyongsheng2107@gmail.com,Lee Yong Sheng,chelsea_leolee@hotmail.com,Chia Wei,P1-1,Love,PHY,Physics,0
+leeyongsheng2107@gmail.com,Lee Yong Sheng,chelsea_leolee@hotmail.com,Chia Wei,P1-1,Love,BIO,Biology,0
+leeyongsheng2107@gmail.com,Lee Yong Sheng,chelsea_leolee@hotmail.com,Chia Wei,P1-1,Love,CHEM,Chemistry,0
+leeyongsheng2107@gmail.com,Lee Yong Sheng,chelsea_leolee@hotmail.com,Chia Wei,P1-1,Love,MATH,Mathematics,0
+lionelmessi@gmail.com,Lionel Messi,34@gmail.com,Griezmann,P1-1,Love,BIO,Biology,0
+kimyongtan@gmail.com,Kim Yong,tepan@gmail.com,Te Pan,P2-1,Hate,CHEM,Chemistry,0
+kimyongtan@gmail.com,Kim Yong,jackson@gmail.com,Jackson,P1-1,Love,CHEM,Chemistry,0
+kimyongtan@gmail.com,Kim Yong,tepan@gmail.com,Te Pan,P1-1,Love,PHY,Physics,0
+kimyongtan@gmail.com,Kim Yong,tepan@gmail.com,Te Pan,P1-1,Love,CHN,Chinese,0

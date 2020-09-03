@@ -24,10 +24,11 @@ const studentListHandler = async (req, res, next) => {
 
     const internalStudent = await School.findAll({
       attributes: ['studentEmail', 'studentName'],
+      group: ['studentEmail', 'studentName'],
       where: {
         classCode: reqClassCode
       },
-      offset: reqOffSet
+      //offset: reqOffSet
     });
 
     var output = {
@@ -40,7 +41,7 @@ const studentListHandler = async (req, res, next) => {
     var externalStudent = []
     var exCount = 0;
     if (exLimit > 0) {
-      const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${reqoffset}&limit=${exLimit}`;
+      const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${reqOffSet}&limit=${exLimit}`;
       console.log(externalUrl);
       const resp = await axios.get(externalUrl);
       externalStudent.push(... resp.data.students);

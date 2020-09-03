@@ -17,19 +17,28 @@ const teacherReportHandler = async (req, res, next) => {
   try {
 
     //internal system
-    const teacherReport = await School.findAll({
+    const teacherName = await School.findAll({
       group: ['teacherName'],
-      attributes: ['subjectCode', 'subjectName', [sequelize.fn('count', sequelize.col('classCode')), 'numberOfClasses']],
+      attributes: ['teacherName']
     });
+
+    const teacherReport = await School.findAll({
+      group: ['teacherName', 'subjectCode', 'subjectName'],
+      attributes: [ 'teacherName', 'subjectCode', 'subjectName', [sequelize.literal('count(DISTINCT classCode)'),'numberOfClasses']]
+    });
+
 
     var output = {
       count: 0,
-      subjectDetails: []
+      teacherName: {subjectDetails: []}
     }
 
 
     output.count = teacherReport.length;
-    output.subjectDetails.push(... teacherReport)
+    output.teacherName.push(... teacherName)
+    output.teacherName.subjectDetails.push(... teacherReport)
+
+    console.log(output);
 
 
 
