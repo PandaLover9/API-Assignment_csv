@@ -7,7 +7,7 @@ You can add additional library that will aid you in fulfiling the requirements.
 Please read through NodeJS_Assessment_v2.docx carefully before you attempt.
 
 ## Prerequisites
-- NodeJS v12.x.x
+- NodeJS v12.18.1
 - Docker
 
 <br>

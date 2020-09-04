@@ -18,7 +18,6 @@ App.use('/api', router);
 App.use(globalErrorHandler);
 
 
-
 export default App;
 
 App.get('/', function(req, res){

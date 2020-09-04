@@ -16,7 +16,7 @@ const studentListHandler = async (req, res, next) => {
 
   const reqClassCode = req.params.classCode;
   const reqOffSet = (req.query.offset === undefined) ? 0 : req.query.offset;
-  const reqLimit = (req.query.limit === undefined) ? 10 : req.query.limit;
+  const reqLimit = (req.query.limit === undefined) ? 100 : req.query.limit;
 
   console.log('Offset inserted from browser is: ' + reqOffSet);
 

@@ -18,11 +18,17 @@ const dataImportHandler = async (req, res, next) => {
 
   try {
     const data = await convertCsvToJson(file.path);
+
+    if(req.file.path == undefined)
+    {
+      throw new Error('Invalid file format, please insert a .csv file.')
+    }
     const tobe_update = [];
 
-    data.forEach(d => {
-      if (d['toDelete'] == 1) {
 
+    data.forEach(d => {
+      if (d['toDelete'] == 1 || d['teacherEmail'] === '' || d['studentEmail'] === '' || d['classCode'] === '' || d['subjectCode'] === '')
+      {
         const where = {}
         School.primaryKeyAttributes.forEach(p => {
           where[p] = d[p];
@@ -42,7 +48,15 @@ const dataImportHandler = async (req, res, next) => {
     );
 
   } catch (err) {
-    LOG.error(err)
+    console.log(err.status);
+    if(err.status == undefined)
+    {
+      err.status = 400;
+      console.log('Error message: '+ err + ',' +' Error status is ' + err.status);
+    }
+
+
+    //LOG.error(err)
     return next(err);
   }
 
