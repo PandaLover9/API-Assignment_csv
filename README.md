@@ -1,4 +1,4 @@
-# Interview Assignment (v1.0.0)
+# Assignment (v1.0.0)
 
 This package contains the base code for the interview assignment.<br>
 You can add additional library that will aid you in fulfiling the requirements.
@@ -83,8 +83,8 @@ http://localhost:5000/students?class=2&offset=1&limit=2
 ### Instructions for running the local instance of the API servers
 It is recommended to launch the API in Postman by inputting correct params, headers and body.
 
-## Question 1: DataUpload API
-# The code running this API is in javascript/src/controllers/DataImportController.js
+#### Question 1: DataUpload API
+##### The code running this API is in javascript/src/controllers/DataImportController.js
 
 Before uploading the csv file into database, you can create, update delete record(s) inside csv file, set toDelete = 1 if you do not want to record to be committed into database.
 Please be aware that the teacherEmail, studentEmail, classCode and subjectCode cannot be null, otherwise the row of record will not be uploaded into database.
@@ -100,37 +100,37 @@ In Postman
 In browser
 1) Browse the data.sample.csv then select upload.
 
-#Error handling: Corresponding error status code will be shown in Postman if error occurs.
+#####Error handling: Corresponding error status code will be shown in Postman if error occurs.
 
 
-## Question 2: StudentListing API
-# The code running this API is in javascript/src/controllers/StudentListingController.js
+#### Question 2: StudentListing API
+##### The code running this API is in javascript/src/controllers/StudentListingController.js
 In Postman
 1) Inside Params section, set offset and limit value respectively, or insert inside url endpoint probably.
 2) Send GET request to the endpoint address, for example localhost:3000/api/class/P1-1/students?offset=3&limit=10.
 
-#Error handling:
+####Error handling:
 1) The status code will be 204 if no error occurs.
 2) The error status code will be 503 if internal database or external database is/are unreachable.
 
 
-## Question 3: ClassCode API
-# The code running this API is in javascript/src/controllers/ClassCodeController.js
+#### Question 3: ClassCode API
+##### The code running this API is in javascript/src/controllers/ClassCodeController.js
 In Postman
 1) Inside Body section, set className as key and the new class name to be value.
 2) Send PUT request to the endpoint address, for example localhost:3000/api/class/P1-1.
 
-#Error handling:
+#####Error handling:
 1) The status code will be 204 if no error occurs.
 2) The error status code will be 503 if internal database is unreachable.
 
 
-## Question 4: TeacherReport API
-# The code running this API is in javascript/src/controllers/TeacherReportController.js
+#### Question 4: TeacherReport API
+##### The code running this API is in javascript/src/controllers/TeacherReportController.js
 In Postman
 1) Send GET request to the endpoint address, for example localhost:3000/api/report/workload, no params or body element required.
 
-#Error handling:
+#####Error handling:
 1) The status code will be 200 if no error occurs.
 2) The error status code will be 503 if internal database is unreachable.
 
