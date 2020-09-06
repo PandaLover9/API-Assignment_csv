@@ -50,6 +50,8 @@ const studentListHandler = async (req, res, next) => {
 
   var externalStudent = [];
   var exCount = 0;
+
+  // the route is http://school-administration-system-external:5000 if you run your node.js inside docker. 
   const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${offset}&limit=${limit}`
   try {
     const resp = await axios.get(externalUrl);

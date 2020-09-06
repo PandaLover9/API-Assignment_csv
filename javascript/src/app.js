@@ -20,16 +20,6 @@ App.use(globalErrorHandler);
 
 export default App;
 
-App.get('/', function(req, res){
-  res.render('upload');
-});
-
 App.get('/api/upload', function(req, res){
   res.render('upload');
-});
-
-App.get('/api/class/:classcode/students', function(req, res){
-
-  res.render('studentlisting');
-
 });
