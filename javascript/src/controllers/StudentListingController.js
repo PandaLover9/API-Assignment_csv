@@ -1,73 +1,75 @@
 import Express from 'express';
-import { NO_CONTENT } from 'http-status-codes';
 import Logger from '../config/logger';
-import sequelize from '../config/database';
-
 
 const StudentListController = Express.Router();
 const LOG = new Logger('StudentListController.js');
-const SchoolModel = require('../models/school');
+const School = require('../models/school');
 const axios = require('axios').default;
 
-const School = SchoolModel(sequelize);
 
-
+// TODO: Please implement Question 1 requirement here
 const studentListHandler = async (req, res, next) => {
 
   const reqClassCode = req.params.classCode;
-  const reqOffSet = (req.query.offset === undefined) ? 0 : req.query.offset;
-  const reqLimit = (req.query.limit === undefined) ? 100 : req.query.limit;
+  const offset = (req.query.offset === undefined) ? 0 : req.query.offset;
+  const limit = (req.query.limit === undefined) ? 10 : req.query.limit;
 
-  console.log('Offset inserted from browser is: ' + reqOffSet);
+  // error handling
+  if(offset < 0) {
+    res.status(400);
+    res.send('Offset cannot be negative');
+  } else if (limit < 0 ) {
+    res.status(400);
+    res.send('Limit cannot be negative');
+  }
 
+  var internalStudent = {};
+  var internalCount = 0;
   try {
-
-    const internalStudent = await School.findAll({
+    internalStudent = await School.findAll({
       attributes: ['studentEmail', 'studentName'],
       group: ['studentEmail', 'studentName'],
       where: {
         classCode: reqClassCode
-      },
-      //offset: reqOffSet
+      }
+    });
+    internalCount = await School.count({
+      where: {
+        classCode: reqClassCode
+      }
     });
 
-    var output = {
-      count: 0,
-      students: []
-    }
-
-    const exLimit = reqLimit - internalStudent.length;
-
-    var externalStudent = []
-    var exCount = 0;
-    if (exLimit > 0) {
-      const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${reqOffSet}&limit=${exLimit}`;
-      console.log(externalUrl);
-      const resp = await axios.get(externalUrl);
-      externalStudent.push(... resp.data.students);
-      exCount = resp.data['count'];
-    }
-
-    output.count = internalStudent.length + exCount;
-    output.students.push(... internalStudent)
-    output.students.push(... externalStudent)
-
-    // output = await output.students.findAll({
-    //   //reqOffset
-    //   offset: reqOffset,
-    //   attributes: ['studentEmail', 'studentName'],
-    //   where: {
-    //     classCode: reqClassCode
-    //   },
-    //   order: {
-    //     'id': 'DESC'
-    //   }
-    // });
+    LOG.info(JSON.stringify(internalCount))
 
   } catch (err) {
-    LOG.error(err)
+    LOG.error(err);
+    res.status(503);
+    res.send('Database unreachable');
     return next(err);
   }
+
+  var externalStudent = [];
+  var exCount = 0;
+  const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${offset}&limit=${limit}`
+  try {
+    const resp = await axios.get(externalUrl);
+    externalStudent.push(... resp.data.students);
+    exCount = resp.data['count'];
+  } catch (err) {
+    LOG.error(err);
+    res.status(503);
+    res.send('External server unreachable');
+    return next(err);
+  }
+
+  var output = {
+    count: 0,
+    students: []
+  }
+
+  output.count = internalCount + exCount;
+  output.students.push(... internalStudent)
+  output.students.push(... externalStudent)
 
   return res.send(JSON.stringify(output, null, 2));
 }

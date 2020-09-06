@@ -6,12 +6,10 @@ import App from './app';
 const MAX_RETRY = 20;
 const LOG = new Logger('server.js');
 const { PORT = 3000 } = process.env;
-const SchoolModel = require('./models/school')
+const School = require('./models/school')
 
 const startApplication = async (retryCount) => {
   try {
-
-    SchoolModel(sequelize)
 
     await sequelize.authenticate();
     App.listen(PORT, '0.0.0.0',() => {

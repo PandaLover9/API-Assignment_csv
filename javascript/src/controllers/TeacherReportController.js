@@ -6,10 +6,9 @@ import sequelize from '../config/database';
 
 const TeacherReportController = Express.Router();
 const LOG = new Logger('StudentListController.js');
-const SchoolModel = require('../models/school');
+const School = require('../models/school');
 const axios = require('axios').default;
 
-const School = SchoolModel(sequelize);
 
 
 const teacherReportHandler = async (req, res, next) => {
@@ -32,6 +31,8 @@ const teacherReportHandler = async (req, res, next) => {
 
   } catch (err) {
     LOG.error(err)
+    res.status(503);
+    res.send('Local Server unreachable');
     return next(err);
   }
 
