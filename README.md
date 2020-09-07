@@ -100,7 +100,7 @@ In Postman
 In browser
 1) Browse the data.sample.csv then select upload.
 
-#####Error handling: Corresponding error status code will be shown in Postman if error occurs.
+##### Error handling: Corresponding error status code will be shown in Postman if error occurs.
 
 
 #### Question 2: StudentListing API
@@ -109,7 +109,7 @@ In Postman
 1) Inside Params section, set offset and limit value respectively, or insert inside url endpoint probably.
 2) Send GET request to the endpoint address, for example localhost:3000/api/class/P1-1/students?offset=3&limit=10.
 
-####Error handling:
+##### Error handling:
 1) The status code will be 204 if no error occurs.
 2) The error status code will be 503 if internal database or external database is/are unreachable.
 
@@ -120,7 +120,7 @@ In Postman
 1) Inside Body section, set className as key and the new class name to be value.
 2) Send PUT request to the endpoint address, for example localhost:3000/api/class/P1-1.
 
-#####Error handling:
+##### Error handling:
 1) The status code will be 204 if no error occurs.
 2) The error status code will be 503 if internal database is unreachable.
 
@@ -130,7 +130,7 @@ In Postman
 In Postman
 1) Send GET request to the endpoint address, for example localhost:3000/api/report/workload, no params or body element required.
 
-#####Error handling:
+##### Error handling:
 1) The status code will be 200 if no error occurs.
 2) The error status code will be 503 if internal database is unreachable.
 
