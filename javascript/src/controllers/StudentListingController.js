@@ -24,23 +24,28 @@ const studentListHandler = async (req, res, next) => {
   }
 
   var internalStudent = {};
-  var internalCount = 0;
+  let internalCountIndex = 0;
+  let internalCount = 0;
+
   try {
     internalStudent = await School.findAll({
       attributes: ['studentEmail', 'studentName'],
       group: ['studentEmail', 'studentName'],
       where: {
         classCode: reqClassCode
-      }
+      },
     });
-    internalCount = await School.count({
+
+    internalCountIndex = await School.count({
+      distinct: true,
       where: {
         classCode: reqClassCode
       }
     });
 
-    LOG.info(JSON.stringify(internalCount))
+    LOG.info(JSON.stringify(internalCountIndex))
 
+    internalCount = internalCountIndex + 1;
   } catch (err) {
     LOG.error(err);
     res.status(503);
@@ -49,27 +54,34 @@ const studentListHandler = async (req, res, next) => {
   }
 
   var externalStudent = [];
-  var exCount = 0;
+  let exCount = 0;
+  let exLimit = limit - internalCount;
 
-  // the route is http://school-administration-system-external:5000 if you run your node.js inside docker. 
-  const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${offset}&limit=${limit}`
-  try {
-    const resp = await axios.get(externalUrl);
-    externalStudent.push(... resp.data.students);
-    exCount = resp.data['count'];
-  } catch (err) {
-    LOG.error(err);
-    res.status(503);
-    res.send('External server unreachable');
-    return next(err);
+
+  //To check whether the internal count reaches limit query
+  if(exLimit > 0) {
+    // the route is http://school-administration-system-external:5000 if you run your node.js inside docker.
+    const externalUrl = `http://localhost:5000/students?class=${reqClassCode}&offset=${offset}&limit=${exLimit}`
+    try {
+      const resp = await axios.get(externalUrl);
+      externalStudent.push(... resp.data.students);
+      exCount = resp.data['count'];
+    } catch (err) {
+      LOG.error(err);
+      res.status(503);
+      res.send('External server unreachable');
+      return next(err);
+    }
   }
+
 
   var output = {
     count: 0,
     students: []
   }
 
-  output.count = internalCount + exCount;
+  //Count the number of final output
+  output.count = limit;
   output.students.push(... internalStudent)
   output.students.push(... externalStudent)
 

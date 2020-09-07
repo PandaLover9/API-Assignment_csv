@@ -7,8 +7,6 @@ import sequelize from '../config/database';
 const TeacherReportController = Express.Router();
 const LOG = new Logger('StudentListController.js');
 const School = require('../models/school');
-const axios = require('axios').default;
-
 
 
 const teacherReportHandler = async (req, res, next) => {
