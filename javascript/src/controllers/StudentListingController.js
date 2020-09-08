@@ -33,7 +33,7 @@ const studentListHandler = async (req, res, next) => {
       group: ['studentEmail', 'studentName'],
       where: {
         classCode: reqClassCode
-      },
+      }
     });
 
     internalCountIndex = await School.count({
@@ -84,6 +84,7 @@ const studentListHandler = async (req, res, next) => {
   output.count = limit;
   output.students.push(... internalStudent)
   output.students.push(... externalStudent)
+
 
   return res.send(JSON.stringify(output, null, 2));
 }

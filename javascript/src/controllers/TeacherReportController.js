@@ -8,6 +8,12 @@ const TeacherReportController = Express.Router();
 const LOG = new Logger('StudentListController.js');
 const School = require('../models/school');
 
+function groupBy(xs, key) {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+}
 
 const teacherReportHandler = async (req, res, next) => {
 
@@ -15,17 +21,18 @@ const teacherReportHandler = async (req, res, next) => {
 
     const teacherReport = await School.findAll({
       group: ['teacherName', 'subjectCode', 'subjectName'],
-      attributes: [ 'teacherName', 'subjectCode', 'subjectName', [sequelize.literal('count(DISTINCT classCode)'),'numberOfClasses']]
+      attributes: [ 'teacherName','subjectCode', 'subjectName', [sequelize.literal('count(DISTINCT classCode)'),'numberOfClasses']]
     });
 
+    const groupTecher = groupBy(teacherReport, 'teacherName');
 
-    var output = {
-      count: 0,
-      subjectDetails: []
+    var output = {};
+
+
+    for (const [key, value] of Object.entries(groupTecher)) {
+      output[key] = [];
+      value.forEach(v => output[key].push(v));
     }
-
-    output.count = teacherReport.length;
-    output.subjectDetails.push(... teacherReport)
 
   } catch (err) {
     LOG.error(err)

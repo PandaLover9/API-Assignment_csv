@@ -8,7 +8,16 @@ const ClassCodeController = Express.Router();
 const LOG = new Logger('DataImportController.js');
 const School = require('../models/school');
 
-
+// const dbObj:databaseInterface
+//
+// dbObj.delete
+//
+// ///////////
+// ///jest
+// const dbObj:databaseInterface
+// dbObj = create_mock()
+//
+// //////////
 const classcodecontroller = async (req, res, next) => {
   const reqClassCode = req.params.classCode;
   const reqClassName = req.body.className;
